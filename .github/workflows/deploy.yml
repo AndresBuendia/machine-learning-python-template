@@ -23,13 +23,20 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Add .env file to runner environment variables
+    - name: Load .env file
       run: |
         echo "HEROKU_API_KEY=$(grep HEROKU_API_KEY .env | cut -d '=' -f2)" >> $GITHUB_ENV
+
+    - name: Create Heroku app if it doesn't exist
+      env:
+        HEROKU_API_KEY: ${{ env.HEROKU_API_KEY }}
+      run: |
+        heroku apps:create clasificador_vinos || echo "App already exists"
 
     - name: Deploy to Heroku
       env:
         HEROKU_API_KEY: ${{ env.HEROKU_API_KEY }}
       run: |
-        heroku git:remote -a nombre-de-tu-aplicacion
+        heroku git:remote -a clasificador_vinos
         git push heroku main
+
