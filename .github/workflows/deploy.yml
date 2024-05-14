@@ -3,7 +3,7 @@ name: Deploy to Heroku
 on:
   push:
     branches:
-      - main
+      - streamlit
 
 jobs:
   deploy:
@@ -31,12 +31,11 @@ jobs:
       env:
         HEROKU_API_KEY: ${{ env.HEROKU_API_KEY }}
       run: |
-        heroku apps:create clasificador_vinos || echo "App already exists"
+        heroku apps:create clasificador_vino || echo "App already exists"
 
     - name: Deploy to Heroku
       env:
         HEROKU_API_KEY: ${{ env.HEROKU_API_KEY }}
       run: |
-        heroku git:remote -a clasificador_vinos
-        git push heroku main
-
+        heroku git:remote -a clasificador_vino
+        git push heroku streamlit:main
