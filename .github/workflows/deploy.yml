@@ -11,10 +11,10 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
         python-version: '3.8'
 
@@ -27,15 +27,17 @@ jobs:
       run: |
         echo "HEROKU_API_KEY=$(grep HEROKU_API_KEY .env | cut -d '=' -f2)" >> $GITHUB_ENV
 
-    - name: Create Heroku app if it doesn't exist
+    - name: Ensure Heroku app exists
       env:
         HEROKU_API_KEY: ${{ env.HEROKU_API_KEY }}
       run: |
-        heroku apps:create clasificador_vino || echo "App already exists"
+        if ! heroku apps:info -a clasificador-vino; then
+          heroku apps:create clasificador-vino
+        fi
 
     - name: Deploy to Heroku
       env:
         HEROKU_API_KEY: ${{ env.HEROKU_API_KEY }}
       run: |
-        heroku git:remote -a clasificador_vino
+        heroku git:remote -a clasificador-vino
         git push heroku streamlit:main
