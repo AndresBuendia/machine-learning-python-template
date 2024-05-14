@@ -1,3 +1,7 @@
+# SE HA INTENTADO USAR TANTO RENDER COMO HEROKU Y NO SE HA PODIDO PORQUE REQUIERN AÑADIR MÉTODO
+# DE PAGO.
+
+
 import streamlit as st
 import pandas as pd
 import pickle
