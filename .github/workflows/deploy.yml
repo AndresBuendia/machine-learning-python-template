@@ -31,13 +31,13 @@ jobs:
       env:
         HEROKU_API_KEY: ${{ env.HEROKU_API_KEY }}
       run: |
-        if ! heroku apps:info -a clasificador-vino; then
-          heroku apps:create clasificador-vino
+        if ! heroku apps:info -a clasificadorvino; then
+          heroku apps:create clasificadorvino
         fi
 
     - name: Deploy to Heroku
       env:
         HEROKU_API_KEY: ${{ env.HEROKU_API_KEY }}
       run: |
-        heroku git:remote -a clasificador-vino
+        heroku git:remote -a clasificadorvino
         git push heroku streamlit:main
